@@ -13,4 +13,13 @@
         tools:layout_editor_absoluteX="1dp"
         tools:layout_editor_absoluteY="1dp"
         tools:ignore="MissingConstraints" />
+
+    <Button
+        android:id="@+id/buttonGetRequest"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Get request"
+        app:layout_constraintBottom_toBottomOf="parent"
+        tools:layout_editor_absoluteX="0dp"
+        tools:ignore="MissingConstraints" />
 </androidx.constraintlayout.widget.ConstraintLayout>

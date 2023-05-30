@@ -17,6 +17,10 @@
         <activity
             android:name=".ui.activity.TodoActivity"
             android:exported="true" />
+
+        <activity
+            android:name=".ui.activity.ItemActivity"
+            android:exported="true" />
         <activity
             android:name=".MainActivity"
             android:exported="true">

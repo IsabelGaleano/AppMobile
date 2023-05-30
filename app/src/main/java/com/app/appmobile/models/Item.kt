@@ -1,11 +1,8 @@
 package com.app.appmobile.models
 
-import java.lang.ref.PhantomReference
-
-data class Task(
+data class Item(
     var reference: String,
     var id: String,
     var text: String,
     var done: Boolean
 )
-

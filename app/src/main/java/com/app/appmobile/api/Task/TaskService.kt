@@ -7,6 +7,7 @@ import retrofit2.http.Body
 import retrofit2.http.GET
 import retrofit2.http.Headers
 import retrofit2.http.POST
+import retrofit2.http.PUT
 
 interface TaskService {
 
@@ -17,5 +18,9 @@ interface TaskService {
     @Headers("Content-Type: application/json")
     @POST("tasks")
     fun postTask(@Body taskData: Task) : Call<Task>
+
+    @Headers("Content-Type: application/json")
+    @PUT("tasks")
+    fun putTask(@Body taskData: Task) : Call<Task>
 
 }

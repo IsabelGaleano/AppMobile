@@ -97,6 +97,7 @@ class ItemActivity: AppCompatActivity(), ItemAdapter.ItemClickListener {
             )
         val dialog = Dialog(this)
         val itemNameEdit = dialogBinding.itemNameEdit
+        val itemDoneEdit = dialogBinding.checkBoxDoneUpdate
         val save = dialogBinding.save
         val cancel = dialogBinding.cancel
 
@@ -109,7 +110,9 @@ class ItemActivity: AppCompatActivity(), ItemAdapter.ItemClickListener {
 
         save.setOnClickListener {
             if (!TextUtils.isEmpty(itemNameEdit.text.toString())) {
-                adapter.updateItem(position, itemNameEdit.text.toString())
+                item.text = itemNameEdit.text.toString()
+                item.done = itemDoneEdit.isChecked
+                updateTask(item, position)
                 dialog.dismiss()
             } else {
                 Toast.makeText(this, "Please enter a new name", Toast.LENGTH_SHORT).show()
@@ -125,9 +128,7 @@ class ItemActivity: AppCompatActivity(), ItemAdapter.ItemClickListener {
 
     private fun registerTask(textTask: String) {
 
-
         val task = Task("","123675", textTask, false)
-
 
         val gson = Gson()
         val json = gson.toJson(task)
@@ -140,7 +141,10 @@ class ItemActivity: AppCompatActivity(), ItemAdapter.ItemClickListener {
 
             override fun onResponse(call: Call<Task>, response: Response<Task>) {
                 if (response.isSuccessful) {
-                    println(response.body().toString())
+                    val responseBody = response.body()
+                    val jsonBody = gson.toJson(responseBody)
+                    val newTask = gson.fromJson(jsonBody, Task::class.java)
+                    adapter.addTask(newTask)
                     Log.e("success", response.body().toString())
                 }
             }
@@ -153,12 +157,34 @@ class ItemActivity: AppCompatActivity(), ItemAdapter.ItemClickListener {
         })
     }
 
-    private fun getDummyList(): ArrayList<Item> {
-        val items = ArrayList<Item>()
-        items.add(Item("1","1", "Tarea 1", false))
-        items.add(Item("2", "2", "Tarea 2", true))
-        items.add(Item("3", "3", "Tarea 3", false))
-        return items
+    private fun updateTask(task: Task, position: Int) {
+
+        val gson = Gson()
+        val json = gson.toJson(task)
+        val taskData = gson.fromJson(json, Task::class.java)
+
+        val serviceBuilder = ServiceBuilder.buildService(TaskService::class.java)
+        val call = serviceBuilder.putTask(taskData)
+
+        call.enqueue(object : retrofit2.Callback<Task> {
+
+            override fun onResponse(call: Call<Task>, response: Response<Task>) {
+                if (response.isSuccessful) {
+                    val responseBody = response.body()
+                    val jsonBody = gson.toJson(responseBody)
+                    val updatetask = gson.fromJson(jsonBody, Task::class.java)
+                    adapter.updateItem(position, updatetask.text, updatetask.done)
+                    Log.e("success", updatetask.toString())
+                }
+            }
+
+            override fun onFailure(call: Call<Task>, t: Throwable) {
+                t.printStackTrace()
+                println(t.message.toString())
+                Log.e("error", t.message.toString())
+            }
+        })
     }
+
 
 }

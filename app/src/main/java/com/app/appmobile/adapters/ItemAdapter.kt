@@ -8,6 +8,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.app.appmobile.databinding.ItemRecyclerBinding
 import com.app.appmobile.models.Item
 import com.app.appmobile.models.Task
+import com.app.appmobile.providers.TaskProvider.Companion.taskList
 
 class ItemAdapter(context: Context, val onClickListener: ItemClickListener) :
     RecyclerView.Adapter<ItemAdapter.ViewHolder>() {
@@ -40,8 +41,17 @@ class ItemAdapter(context: Context, val onClickListener: ItemClickListener) :
         }
     }
 
-    fun updateItem(position: Int, text: String) {
+    fun addTask(task: Task) {
+        if (taskList.isNotEmpty()) {
+            items.add(task)
+            notifyDataSetChanged()
+        }
+    }
+
+
+    fun updateItem(position: Int, text: String, done: Boolean) {
         items[position].text = text
+        items[position].done = done
         notifyItemChanged(position)
     }
 

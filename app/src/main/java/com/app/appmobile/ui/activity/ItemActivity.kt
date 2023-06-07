@@ -1,6 +1,7 @@
 package com.app.appmobile.ui.activity
 
 import android.app.Dialog
+import android.content.Intent
 import android.os.Bundle
 import android.text.TextUtils
 import android.util.Log
@@ -91,7 +92,15 @@ class ItemActivity: AppCompatActivity(), ItemAdapter.ItemClickListener {
     }
 
     override fun onItemClickListener(item: Task, position: Int) {
-        val dialogBinding: PopupEditItemBinding =
+
+        val intent = Intent(this, UpdateActivity::class.java)
+        intent.putExtra("reference", item.reference);
+        intent.putExtra("id", item.id);
+        intent.putExtra("text", item.text);
+        intent.putExtra("done", item.done);
+        startActivity(intent)
+
+        /*val dialogBinding: PopupEditItemBinding =
             PopupEditItemBinding.inflate(
                 LayoutInflater.from(this)
             )
@@ -112,7 +121,7 @@ class ItemActivity: AppCompatActivity(), ItemAdapter.ItemClickListener {
             if (!TextUtils.isEmpty(itemNameEdit.text.toString())) {
                 item.text = itemNameEdit.text.toString()
                 item.done = itemDoneEdit.isChecked
-                adapter.updateItem(position, item.text, item.done)
+                //adapter.updateItem(position, item.text, item.done)
                 updateTask(item, position)
                 dialog.dismiss()
             } else {
@@ -124,7 +133,7 @@ class ItemActivity: AppCompatActivity(), ItemAdapter.ItemClickListener {
             dialog.dismiss()
         }
 
-        dialog.show()
+        dialog.show()*/
     }
 
     private fun registerTask(textTask: String) {
@@ -174,7 +183,7 @@ class ItemActivity: AppCompatActivity(), ItemAdapter.ItemClickListener {
                     val responseBody = response.body()
                     val jsonBody = gson.toJson(responseBody)
                     val updatetask = gson.fromJson(jsonBody, Task::class.java)
-
+                    adapter.updateItem(position,updatetask.text, updatetask.done)
                     Log.e("success", updatetask.toString())
                 }
             }

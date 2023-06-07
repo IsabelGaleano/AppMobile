@@ -112,6 +112,7 @@ class ItemActivity: AppCompatActivity(), ItemAdapter.ItemClickListener {
             if (!TextUtils.isEmpty(itemNameEdit.text.toString())) {
                 item.text = itemNameEdit.text.toString()
                 item.done = itemDoneEdit.isChecked
+                adapter.updateItem(position, item.text, item.done)
                 updateTask(item, position)
                 dialog.dismiss()
             } else {
@@ -173,7 +174,7 @@ class ItemActivity: AppCompatActivity(), ItemAdapter.ItemClickListener {
                     val responseBody = response.body()
                     val jsonBody = gson.toJson(responseBody)
                     val updatetask = gson.fromJson(jsonBody, Task::class.java)
-                    adapter.updateItem(position, updatetask.text, updatetask.done)
+
                     Log.e("success", updatetask.toString())
                 }
             }

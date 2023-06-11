@@ -167,34 +167,6 @@ class ItemActivity: AppCompatActivity(), ItemAdapter.ItemClickListener {
         })
     }
 
-    private fun updateTask(task: Task, position: Int) {
-
-        val gson = Gson()
-        val json = gson.toJson(task)
-        val taskData = gson.fromJson(json, Task::class.java)
-
-        val serviceBuilder = ServiceBuilder.buildService(TaskService::class.java)
-        val call = serviceBuilder.putTask(taskData)
-
-        call.enqueue(object : retrofit2.Callback<Task> {
-
-            override fun onResponse(call: Call<Task>, response: Response<Task>) {
-                if (response.isSuccessful) {
-                    val responseBody = response.body()
-                    val jsonBody = gson.toJson(responseBody)
-                    val updatetask = gson.fromJson(jsonBody, Task::class.java)
-                    adapter.updateItem(position,updatetask.text, updatetask.done)
-                    Log.e("success", updatetask.toString())
-                }
-            }
-
-            override fun onFailure(call: Call<Task>, t: Throwable) {
-                t.printStackTrace()
-                println(t.message.toString())
-                Log.e("error", t.message.toString())
-            }
-        })
-    }
 
 
 }

@@ -19,9 +19,6 @@
             android:name=".ui.activity.UpdateActivity"
             android:exported="false" />
         <activity
-            android:name=".ui.activity.TodoActivity"
-            android:exported="true" />
-        <activity
             android:name=".ui.activity.ItemActivity"
             android:exported="true" />
         <activity

@@ -4,8 +4,8 @@ import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
 object ServiceBuilder {
-    const val baseURL = "https://next-js-todo-ebon.vercel.app"
-    //const val baseURL = "http://192.168.0.18:3000"
+    //const val baseURL = "https://next-js-todo-ebon.vercel.app"
+    const val baseURL = "http://192.168.0.15:3000"
     private const val apiURL = "$baseURL/api/"
 
 

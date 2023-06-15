@@ -6,6 +6,8 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.app.appmobile.databinding.TaskItemLayoutBinding
 import com.app.appmobile.domain.models.TaskModel
+import com.app.appmobile.models.Task
+import com.app.appmobile.providers.TaskProvider
 import com.app.appmobile.ui.task.TaskListFragment
 
 class TaskListAdapter(
@@ -40,6 +42,13 @@ class TaskListAdapter(
 
     override fun getItemCount(): Int {
         return data.size
+    }
+
+    fun addTask(task: TaskModel) {
+        if (data.isNotEmpty()) {
+            data.add(task)
+            notifyDataSetChanged()
+        }
     }
 
     inner class TaskItemViewHolder(private val binding: TaskItemLayoutBinding) :

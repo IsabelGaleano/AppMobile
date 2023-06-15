@@ -1,4 +1,4 @@
-package com.app.appmobile.api
+package com.app.appmobile.data
 
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory

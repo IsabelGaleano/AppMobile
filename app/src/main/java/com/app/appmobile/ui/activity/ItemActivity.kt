@@ -1,26 +1,15 @@
 package com.app.appmobile.ui.activity
 
-import android.app.Dialog
 import android.content.Intent
 import android.os.Bundle
-import android.text.TextUtils
 import android.util.Log
-import android.view.LayoutInflater
-import android.view.Window
-import android.view.WindowManager
-import android.widget.Button
-import android.widget.EditText
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.app.appmobile.R
 import com.app.appmobile.adapters.ItemAdapter
-import com.app.appmobile.api.ServiceBuilder
+import com.app.appmobile.data.ServiceBuilder
 import com.app.appmobile.api.Task.TaskService
 import com.app.appmobile.databinding.ActivityItemBinding
-import com.app.appmobile.databinding.PopupEditItemBinding
-import com.app.appmobile.models.Item
 import com.app.appmobile.models.Task
 import com.app.appmobile.models.TaskResponse
 import com.google.gson.Gson

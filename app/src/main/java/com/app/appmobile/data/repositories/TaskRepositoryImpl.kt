@@ -1,21 +1,25 @@
 package com.app.appmobile.data.repositories
 
 import android.util.Log
-import com.app.appmobile.api.ServiceBuilder
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import com.app.appmobile.api.Task.TaskService
+import com.app.appmobile.data.ServiceBuilder
 import com.app.appmobile.data.datasources.LocalTaskDataResource
 import com.app.appmobile.domain.models.TaskModel
 import com.app.appmobile.domain.repositories.TaskRepository
 import com.app.appmobile.models.Task
-import com.app.appmobile.models.TaskResponse
+import com.google.gson.Gson
 import retrofit2.Call
 import retrofit2.Response
 
 
 class TaskRepositoryImpl(): TaskRepository {
 
-   override fun getAllNotess(callback: (List<TaskModel>?) -> Unit) {
-        val serviceBuilder = ServiceBuilder.buildService(LocalTaskDataResource::class.java)
+    private val serviceBuilder = ServiceBuilder.buildService(LocalTaskDataResource::class.java)
+
+
+   override fun getAllNotes(callback: (List<TaskModel>?) -> Unit) {
         val call = serviceBuilder.getAllTasks()
 
         call.enqueue(object : retrofit2.Callback<List<TaskModel>> {
@@ -40,6 +44,35 @@ class TaskRepositoryImpl(): TaskRepository {
             }
         })
     }
+
+    fun addNotes(taskModel: TaskModel?, callback: (TaskModel?) -> Unit) {
+        val gson = Gson()
+        val json = gson.toJson(taskModel)
+        val taskData = gson.fromJson(json, TaskModel::class.java)
+
+        val call = serviceBuilder.postTask(taskData)
+
+        call.enqueue(object : retrofit2.Callback<TaskModel> {
+            override fun onResponse(call: Call<TaskModel>, response: Response<TaskModel>) {
+                if (response.isSuccessful) {
+                    val responseBody = response.body()
+                    val jsonBody = gson.toJson(responseBody)
+                    val newTask = gson.fromJson(jsonBody, TaskModel::class.java)
+                    callback(newTask)
+                    Log.e("success", response.body().toString())
+                }
+            }
+
+            override fun onFailure(call: Call<TaskModel>, t: Throwable) {
+                t.printStackTrace()
+                println(t.message.toString())
+                Log.e("error", t.message.toString())
+            }
+        })
+    }
+
+
+
 
 
 }

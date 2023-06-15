@@ -17,7 +17,7 @@ class TaskListViewModel : ViewModel() {
         get() = _taskListLiveData
 
     fun onViewReady() {
-        repository.getAllNotess { taskModels ->
+        repository.getAllNotes { taskModels ->
             if (taskModels != null) {
                 _taskListLiveData.value = taskModels
 
@@ -28,6 +28,7 @@ class TaskListViewModel : ViewModel() {
             }
         }
     }
+
 
 
 

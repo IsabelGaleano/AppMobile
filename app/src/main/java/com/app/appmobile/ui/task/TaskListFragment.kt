@@ -8,10 +8,12 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.annotation.NonNull
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.app.appmobile.R
+import com.app.appmobile.data.repositories.TaskRepositoryImpl
 import com.app.appmobile.databinding.TaskItemLayoutBinding
 import com.app.appmobile.domain.models.TaskModel
 import com.app.appmobile.ui.task.adapters.TaskListAdapter
@@ -21,8 +23,15 @@ class TaskListFragment : Fragment(), TaskListAdapter.TaskClickListener {
 
     private lateinit var viewModel: TaskListViewModel
     private lateinit var listRecyclerView: RecyclerView
+    private val repository = TaskRepositoryImpl()
 
-    private var adapter = TaskListAdapter(this, this)
+    var adapter = TaskListAdapter(this, this)
+
+    companion object {
+        fun newInstance(): TaskListFragment {
+            return TaskListFragment()
+        }
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -40,6 +49,16 @@ class TaskListFragment : Fragment(), TaskListAdapter.TaskClickListener {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         viewModel.onViewReady()
+
+        parentFragmentManager.setFragmentResultListener("datos", this) { _, result ->
+            val text = result.getString("text")
+            val task = TaskModel("","123675", text.toString(), false)
+            addTask(task)
+            Log.e("success", text.toString())
+        }
+
+
+
     }
 
     private fun initViews(view: View) {
@@ -63,11 +82,23 @@ class TaskListFragment : Fragment(), TaskListAdapter.TaskClickListener {
         }
     }
 
-    private fun onListItemClicked(taskModel: TaskModel) {
-        Toast.makeText(requireContext(), "${taskModel.text} was clicked", Toast.LENGTH_LONG).show()
-        Log.e("success", taskModel.toString())
-        // Todo remove item
+    private fun addTask(_task: TaskModel) {
+        val callback: (TaskModel?) -> Unit = { task ->
+            if (task != null) {
+                adapter.addTask(task)
+
+                println("TaskModel recibido: $task")
+            } else {
+
+                println("No se recibió ningún TaskModel")
+            }
+        }
+        repository.addNotes(_task, callback)
+
+
     }
+
+
 
     override fun onTaskClickListener(item: TaskModel, position: Int) {
         Toast.makeText(requireContext(), "${item.text} was clicked", Toast.LENGTH_LONG).show()

@@ -4,12 +4,11 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
-import android.widget.Button
 import android.widget.CheckBox
 import android.widget.EditText
 import android.widget.TextView
 import com.app.appmobile.R
-import com.app.appmobile.api.ServiceBuilder
+import com.app.appmobile.data.ServiceBuilder
 import com.app.appmobile.api.Task.TaskService
 import com.app.appmobile.models.Task
 import com.google.gson.Gson

@@ -9,6 +9,8 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.annotation.NonNull
+import androidx.fragment.app.FragmentManager
+import androidx.fragment.app.FragmentTransaction
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -93,7 +95,7 @@ class TaskListFragment : Fragment(), TaskListAdapter.TaskClickListener {
                 println("No se recibió ningún TaskModel")
             }
         }
-        repository.addNotes(_task, callback)
+        repository.addTask(_task, callback)
 
 
     }
@@ -103,6 +105,29 @@ class TaskListFragment : Fragment(), TaskListAdapter.TaskClickListener {
     override fun onTaskClickListener(item: TaskModel, position: Int) {
         Toast.makeText(requireContext(), "${item.text} was clicked", Toast.LENGTH_LONG).show()
         Log.e("success", item.toString())
+
+        val bundle = Bundle()
+        bundle.putString("task_text_update", item.text)
+        bundle.putBoolean("task_done_update", item.done)
+        bundle.putString("task_id_update", item.id)
+        bundle.putString("task_reference_update", item.reference)
+        parentFragmentManager.setFragmentResult("task_update", bundle)
+
+        cambiarFragmento()
+    }
+
+    private fun cambiarFragmento() {
+        val fragmentManager: FragmentManager = parentFragmentManager
+        fragmentManager.popBackStackImmediate(null, FragmentManager.POP_BACK_STACK_INCLUSIVE)
+        val fragmentTransaction: FragmentTransaction = fragmentManager.beginTransaction()
+        val fragmentList: List<Fragment> = fragmentManager.fragments
+        for (fragment in fragmentList) {
+            fragmentTransaction.replace(fragment.id, UpdateTaskFragment())
+        }
+        fragmentTransaction.addToBackStack(null)
+        fragmentTransaction.commit()
+
+
     }
 
 

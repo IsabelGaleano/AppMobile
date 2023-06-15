@@ -45,7 +45,7 @@ class TaskRepositoryImpl(): TaskRepository {
         })
     }
 
-    fun addNotes(taskModel: TaskModel?, callback: (TaskModel?) -> Unit) {
+    override fun addTask(taskModel: TaskModel?, callback: (TaskModel?) -> Unit) {
         val gson = Gson()
         val json = gson.toJson(taskModel)
         val taskData = gson.fromJson(json, TaskModel::class.java)
@@ -71,8 +71,31 @@ class TaskRepositoryImpl(): TaskRepository {
         })
     }
 
+    override fun updateTask(taskModel: TaskModel?, callback: (TaskModel?) -> Unit) {
+        val gson = Gson()
+        val json = gson.toJson(taskModel)
+        val taskData = gson.fromJson(json, TaskModel::class.java)
 
+        val call = serviceBuilder.putTask(taskData)
 
+        call.enqueue(object : retrofit2.Callback<TaskModel> {
+            override fun onResponse(call: Call<TaskModel>, response: Response<TaskModel>) {
+                if (response.isSuccessful) {
+                    val responseBody = response.body()
+                    val jsonBody = gson.toJson(responseBody)
+                    val updateTask = gson.fromJson(jsonBody, TaskModel::class.java)
+                    callback(updateTask)
+                    Log.e("success", response.body().toString())
+                }
+            }
+
+            override fun onFailure(call: Call<TaskModel>, t: Throwable) {
+                t.printStackTrace()
+                println(t.message.toString())
+                Log.e("error", t.message.toString())
+            }
+        })
+    }
 
 
 }

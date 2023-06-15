@@ -6,10 +6,9 @@ interface TaskRepository {
 
     fun getAllNotes(callback: (List<TaskModel>?) -> Unit)
 
-    fun addNotes(callback: (TaskModel?) -> Unit): TaskModel? {
-        val taskModel: TaskModel? = null
-        return taskModel
-    }
+    fun addTask(taskModel: TaskModel?, callback: (TaskModel?) -> Unit)
+
+    fun updateTask(taskModel: TaskModel?, callback: (TaskModel?) -> Unit)
 
 
 

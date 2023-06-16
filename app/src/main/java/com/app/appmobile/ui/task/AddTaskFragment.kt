@@ -10,10 +10,9 @@ import android.view.ViewGroup
 import android.widget.Button
 import android.widget.EditText
 import com.app.appmobile.R
-import com.app.appmobile.adapters.ItemAdapter
 import com.app.appmobile.data.repositories.TaskRepositoryImpl
 import com.app.appmobile.domain.models.TaskModel
-import com.app.appmobile.models.Task
+
 
 class AddTaskFragment : Fragment() {
 

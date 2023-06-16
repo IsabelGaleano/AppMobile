@@ -1,14 +1,10 @@
 package com.app.appmobile.data.repositories
 
 import android.util.Log
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import com.app.appmobile.api.Task.TaskService
 import com.app.appmobile.data.ServiceBuilder
 import com.app.appmobile.data.datasources.LocalTaskDataResource
 import com.app.appmobile.domain.models.TaskModel
 import com.app.appmobile.domain.repositories.TaskRepository
-import com.app.appmobile.models.Task
 import com.google.gson.Gson
 import retrofit2.Call
 import retrofit2.Response

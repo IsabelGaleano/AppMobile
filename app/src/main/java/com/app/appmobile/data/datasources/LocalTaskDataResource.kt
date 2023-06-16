@@ -1,8 +1,6 @@
 package com.app.appmobile.data.datasources
 
 import com.app.appmobile.domain.models.TaskModel
-import com.app.appmobile.models.Task
-import com.app.appmobile.models.TaskResponse
 import retrofit2.Call
 import retrofit2.http.Body
 import retrofit2.http.GET
